@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "75bc54343eda2c57770603a0828dab1c7dfc536d2dd25b553308932971711d39"
+            "sha256": "014e23feae323a78673966d0f1941dbf49c238245d5ae0b98238990396681ae6"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -115,6 +115,13 @@
             ],
             "version": "==1.1.1"
         },
+        "pulp": {
+            "hashes": [
+                "sha256:07dffada5bdd02f20f21285388894da9da0be840498789c43f59e10c90205109"
+            ],
+            "index": "pypi",
+            "version": "==1.6.9"
+        },
         "pymongo": {
             "hashes": [
                 "sha256:32421df60d06f479d71b6b539642e410ece3006e8910688e68df962c8eb40a21",
@@ -148,6 +155,13 @@
             ],
             "index": "pypi",
             "version": "==3.8.0"
+        },
+        "pyparsing": {
+            "hashes": [
+                "sha256:1873c03321fc118f4e9746baf201ff990ceb915f433f23b395f5580d1840cb2a",
+                "sha256:9b6323ef4ab914af344ba97510e966d64ba91055d6b9afa6b30799340e89cc03"
+            ],
+            "version": "==2.4.0"
         },
         "pyrsistent": {
             "hashes": [

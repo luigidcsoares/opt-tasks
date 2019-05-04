@@ -1,11 +1,11 @@
 from flask_restplus import Api
 
 # Import api namespaces.
-from . import people
+from . import simulations
 
 api = Api(
     title='Optmizing Tasks',
     version='1.0',
-    description='Optimal allocation of people into tasks'
+    description='Optimal allocation of students into group tasks'
 )
-api.add_namespace(people.ns)
+api.add_namespace(simulations.ns)
