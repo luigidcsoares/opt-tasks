@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".ui.add.AddTasksFragment">
+
+    <data>
+        <import type="java.util.List"/>
+        <import type="br.com.opttasks.data.task.Task"/>
+        <variable name="tasks" type="List&lt;Task&gt;"/>
+        <variable name="name" type="String"/>
+        <variable name="level" type="String"/>
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="12dp"
+                android:orientation="vertical">
+
+            <LinearLayout
+                    android:id="@+id/task_items_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:entries="@{tasks}"
+                    app:layout="@{@layout/task_item}"
+                    app:removeBtnIndex="@{2}"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/task_name_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent=".5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/task_items_layout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/task_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/task_name"
+                        android:text="@={name}"
+                        android:textColorHint="@color/charcoal_grey"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="normal"
+                        tools:ignore="Autofill"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/task_value_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent=".3"
+                    app:layout_constraintStart_toEndOf="@id/task_name_layout"
+                    app:layout_constraintTop_toBottomOf="@id/task_items_layout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/task_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberSigned"
+                        android:hint="@string/task_value"
+                        android:text="@={level}"
+                        android:textColorHint="@color/charcoal_grey"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="normal"
+                        tools:ignore="Autofill"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/task_add_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    app:layout_constraintStart_toEndOf="@id/task_value_layout"
+                    app:layout_constraintTop_toBottomOf="@id/task_items_layout"
+                    app:srcCompat="@drawable/ic_add"
+                    app:backgroundTint="@color/colorPrimaryDark"
+                    android:tint="@color/white"
+                    app:fabSize="mini"
+                    app:elevation="4dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/navigate_students_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="16dp"
+                app:srcCompat="@drawable/ic_navigate_next"
+                app:backgroundTint="@color/colorPrimaryDark"
+                android:tint="@color/white"
+                app:elevation="4dp"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

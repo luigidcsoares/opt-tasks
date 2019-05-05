@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Opt Tasks</string>
+    <string name="login_button">Entrar</string>
+    <string name="login_password">Senha</string>
+    <string name="login_email">Email</string>
+    <string name="login_fail">Usuário ou senha inválidos!</string>
+    <string name="task_name">Tarefa</string>
+    <string name="task_value">Dificuldade</string>
+    <string name="not_empty">O campo deve estar preenchido!</string>
+    <string name="student_value">Competência</string>
+    <string name="student_name">Estudante</string>
+</resources>

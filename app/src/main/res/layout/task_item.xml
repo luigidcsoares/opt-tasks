@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="br.com.opttasks.data.task.Task"/>
+        <variable name="data" type="Task"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/task_view_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="16dp">
+
+        <TextView
+                android:id="@+id/task_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent=".5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@{data.name}"
+                android:textSize="18sp"
+                android:textColorHint="@color/charcoal_grey"
+                android:fontFamily="sans-serif"
+                android:textStyle="normal"
+                tools:ignore="Autofill"/>
+
+        <TextView
+                android:id="@+id/task_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent=".3"
+                app:layout_constraintStart_toEndOf="@id/task_name"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@{`` + data.value}"
+                android:textSize="18sp"
+                android:textColorHint="@color/charcoal_grey"
+                android:fontFamily="sans-serif"
+                android:textStyle="normal"
+                tools:ignore="Autofill"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/task_remove_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintStart_toEndOf="@id/task_value"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_remove"
+                app:backgroundTint="@android:color/holo_red_dark"
+                android:tint="@color/white"
+                app:fabSize="mini"
+                app:elevation="4dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
