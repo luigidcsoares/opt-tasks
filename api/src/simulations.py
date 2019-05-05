@@ -23,27 +23,27 @@ ns = Namespace(
 
 simulation = ns.model('simulation', {
     'name': fields.String(required=True, description='Simulation Name'),
-    'people': fields.List(
-        fields.Nested(ns.model(
-            'person', {
-                'name': fields.String(required=True, unique=True, description='Person Name')
-            }
-        ))
+    # 'people': fields.List(
+    #    fields.Nested(ns.model(
+    #        'person', {
+    #            'name': fields.String(required=True, unique=True, description='Person Name')
+    #        }
+    #    ))
+    #),
+    'students': fields.List(
+        fields.Nested(ns.model('student', {
+            'name': fields.String(required=True, unique=True, descripton='Student Name'),
+            'skills': fields.List(fields.Nested(ns.model('skill', {
+                'task': fields.String(required=True, unique=True, description='Task Name/ID'),
+                'competency': fields.Integer(required=True)
+            })))
+        }))
     ),
     'tasks': fields.List(
         fields.Nested(ns.model(
             'task', {
                 'name': fields.String(required=True, unique=True, description='Task Name'),
                 'level': fields.Integer(required=True)
-            }
-        ))
-    ),
-    'skills': fields.List(
-        fields.Nested(ns.model(
-            'skill', { 
-                'person': fields.String(required=True, unique=True, description='Person Name'),
-                'task': fields.String(required=True, unique=True, description='Task Name'),
-                'value': fields.Integer(required=True)
             }
         ))
     ),
@@ -66,7 +66,7 @@ class Simulations(Resource):
     @ns.marshal_with(simulation)
     def post(self):
         db.simulations.insert_one(ns.payload)
-        sim(document)
+        #sim(document)
         return ns.payload
 
 @ns.route('/<string:id>')
@@ -74,7 +74,8 @@ class Simulation(Resource):
     @ns.doc('Get a simulation')
     @ns.marshal_with(simulation)
     def get(self, id):
-        document = db.simulations.find_one({"_id": ObjectId(id)})
+        document = db.simulations.find_one({'_id': ObjectId(id)})
+        print(sim(document))
         return document
 
     """
