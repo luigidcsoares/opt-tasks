@@ -22,7 +22,7 @@ def sim(documents):
         cstudents[s['name']] = []
 
         for sk in s['skills']:
-            v = '{}_{}'.format(s['name'], sk['task'])
+            v = '{}@{}'.format(s['name'], sk['task'])
             dvars.append(v)
             factors.append(sk['competency'])
             cstudents[s['name']].append(v)
@@ -47,7 +47,7 @@ def sim(documents):
         factors = []
 
         for s in students:
-            ctask.append('{}_{}'.format(s['name'], t['name']))
+            ctask.append('{}@{}'.format(s['name'], t['name']))
             factors.append(
                 next(item for item in s['skills'] if item['task'] == t['name'])
                     ['competency']
@@ -62,19 +62,19 @@ def sim(documents):
     # The problem data is written to an .lp file
     # prob.writeLP('OptmizingTasks.lp')
 
-    # The problem is solved using PuLP's choice of Solver
+    # The problem is solved using PuLP's GLPK
     prob.solve(pulp.GLPK())
 
-    optimization = [] # Optimization return of the function
+    optimization = {} # Optimization return of the function
 
     # The status of the solution is printed to the screen
-    print('Status:', LpStatus[prob.status])
+    #print('Status:', LpStatus[prob.status])
 
     # Each of the variables is printed with it's resolved optimum value
     for v in prob.variables():
-        optimization.append({ v.name : v.varValue })
+        optimization[v.name] = v.varValue
 
     # The optimised objective function value is printed to the screen
-    optimization.append({ 'Z' : value(prob.objective) })
+    optimization['Z'] = value(prob.objective)
 
     return optimization

@@ -2,6 +2,8 @@ from flask_restplus import Namespace, Resource, fields
 from bson.objectid import ObjectId
 from pymongo import ReturnDocument
 
+import json
+
 from .sim_glpk import sim
 
 # Import MongoDB instance.
@@ -23,13 +25,6 @@ ns = Namespace(
 
 simulation = ns.model('simulation', {
     'name': fields.String(required=True, description='Simulation Name'),
-    # 'people': fields.List(
-    #    fields.Nested(ns.model(
-    #        'person', {
-    #            'name': fields.String(required=True, unique=True, description='Person Name')
-    #        }
-    #    ))
-    #),
     'students': fields.List(
         fields.Nested(ns.model('student', {
             'name': fields.String(required=True, unique=True, descripton='Student Name'),
@@ -47,6 +42,12 @@ simulation = ns.model('simulation', {
             }
         ))
     ),
+    'allocations': fields.List(
+        fields.Nested(ns.model('allocation', {
+            'student': fields.String(),
+            'tasks': fields.List(fields.String)
+    }))),
+    'Z': fields.Integer(),
 })
 
 ##############################
@@ -65,8 +66,25 @@ class Simulations(Resource):
     @ns.expect(simulation, validate=True)
     @ns.marshal_with(simulation)
     def post(self):
+        retrieve = sim(ns.payload)
+
+        ns.payload['Z'] = retrieve.pop('Z')
+        ns.payload['allocations'] = []
+
+        tmp = set(list(map(lambda x: threatRetrieve(x)[0], retrieve.keys())))
+
+        for t in tmp:
+            ns.payload['allocations'].append({ 'student' : t, 'tasks': [] })
+
+        for key, value in retrieve.items():
+            if value == 1:
+                tr = threatRetrieve(key)
+                i = next(i for i, item in enumerate(ns.payload['allocations'])
+                            if item['student'] == tr[0])
+                ns.payload['allocations'][i]['tasks'].append(tr[1])
+
         db.simulations.insert_one(ns.payload)
-        #sim(document)
+
         return ns.payload
 
 @ns.route('/<string:id>')
@@ -74,18 +92,7 @@ class Simulation(Resource):
     @ns.doc('Get a simulation')
     @ns.marshal_with(simulation)
     def get(self, id):
-        document = db.simulations.find_one({'_id': ObjectId(id)})
-        print(sim(document))
-        return document
+        return db.simulations.find_one({'_id': ObjectId(id)})
 
-    """
-    @ns.doc('Change a simulation')
-    @ns.expect(simulation, validate=True)
-    @ns.marshal_with(simulation)
-    def put(self, id):
-        return db.simulations.find_one_and_update(
-            {"_id": ObjectId(id)},
-            {"$inc": ns.payload},
-            return_document = ReturnDocument.AFTER
-        )
-    """
+def threatRetrieve(s):
+    return s[4:].replace("_", " ").split("@")
