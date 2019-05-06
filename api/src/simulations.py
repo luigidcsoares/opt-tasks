@@ -24,6 +24,7 @@ ns = Namespace(
 ##############################
 
 simulation = ns.model('simulation', {
+    '_id': fields.String(description='Simulation ID'),
     'name': fields.String(required=True, description='Simulation Name'),
     'students': fields.List(
         fields.Nested(ns.model('student', {
@@ -83,7 +84,8 @@ class Simulations(Resource):
                             if item['student'] == tr[0])
                 ns.payload['allocations'][i]['tasks'].append(tr[1])
 
-        return db.simulations.insert_one(ns.payload)
+        db.simulations.insert_one(ns.payload)
+        return ns.payload
 
 @ns.route('/<string:id>')
 class Simulation(Resource):
