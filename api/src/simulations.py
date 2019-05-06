@@ -83,9 +83,7 @@ class Simulations(Resource):
                             if item['student'] == tr[0])
                 ns.payload['allocations'][i]['tasks'].append(tr[1])
 
-        db.simulations.insert_one(ns.payload)
-
-        return ns.payload
+        return db.simulations.insert_one(ns.payload)
 
 @ns.route('/<string:id>')
 class Simulation(Resource):
