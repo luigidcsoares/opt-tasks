@@ -58,16 +58,10 @@ def sim(documents):
             'Upper bound for task {}'.format(unidecode(t['name']))
 
     
-    # The problem data is written to an .lp file
-    prob.writeLP('OptmizingTasks.lp')
-
     # The problem is solved using PuLP's GLPK
     prob.solve(pulp.GLPK())
     
     optimization = {} # Optimization return of the function
-
-    # The status of the solution is printed to the screen
-    #print('Status:', LpStatus[prob.status])
 
     # Each of the variables is printed with it's resolved optimum value
     for v in prob.variables():
@@ -75,5 +69,8 @@ def sim(documents):
 
     # The optimised objective function value is printed to the screen
     optimization['Z'] = value(prob.objective)
+    
+    # The optimization status.
+    optimization['status'] = LpStatus[prob.status]
 
     return optimization

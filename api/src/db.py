@@ -1,7 +1,6 @@
 from pymongo import MongoClient
+import os
 
-_db_uri = 'mongodb+srv://admin:1234@cluster0-rnl6b.azure.mongodb.net/'
-_db_name = 'database'
-_db_opts = '?retryWrites=true'
+from .config import DB_NAME, DB_OPTS, DB_URI
 
-db = MongoClient(_db_uri + _db_opts)[_db_name]
+db = MongoClient(DB_URI + DB_OPTS)[DB_NAME]
