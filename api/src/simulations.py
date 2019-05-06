@@ -1,6 +1,7 @@
 from flask_restplus import Namespace, Resource, fields
 from bson.objectid import ObjectId
 from pymongo import ReturnDocument
+from unidecode import unidecode
 
 import json
 
