@@ -38,8 +38,6 @@ def sim(documents):
     for s in students:
         prob += lpSum([dvars_dict[v] for v in cstudents[s['name']]]) >= 1, \
             'Lower bound for student {}'.format(s['name'])
-        prob += lpSum([dvars_dict[v] for v in cstudents[s['name']]]) <= len(tasks) - 1, \
-            'Upper bound for student {}'.format(s['name'])
 
     # The constraints for tasks
     for t in tasks:

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 
 import br.com.opttasks.R
@@ -77,6 +78,7 @@ class AddStudentsFragment : Fragment() {
 
                     val simulation = Simulation(simulationName!!, args.tasks.toList(), studentList)
                     CoroutineScope(Dispatchers.Main).launch { viewModel.save(simulation) }
+                    findNavController().navigate(AddStudentsFragmentDirections.actionSave())
                 } else Toast
                     .makeText(context, getString(R.string.at_least_one), Toast.LENGTH_LONG)
                     .show()
