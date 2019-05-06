@@ -64,7 +64,7 @@ def sim(documents):
 
     # The problem is solved using PuLP's GLPK
     prob.solve(pulp.GLPK())
-
+    
     optimization = {} # Optimization return of the function
 
     # The status of the solution is printed to the screen

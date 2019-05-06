@@ -16,7 +16,7 @@ from .db import db
 ns = Namespace(
     'simulations', 
     description='Simulations who will be allocated',
-    path='/simulations'
+    path='/api/simulations'
 )
 
 ##############################
