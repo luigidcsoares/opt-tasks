@@ -100,7 +100,7 @@ class Simulations(Resource):
             if value == 1:
                 tr = cleanRetrieve(key)
                 i = next(i for i, item in enumerate(ns.payload['allocations'])
-                            if unicode(item['student']) == tr[0])
+                            if unidecode(item['student']) == tr[0])
                 ns.payload['allocations'][i]['tasks'].append(tr[1])
 
         db.simulations.insert_one(ns.payload)
