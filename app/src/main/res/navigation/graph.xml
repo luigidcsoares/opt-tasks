@@ -42,6 +42,6 @@
             android:id="@+id/add_students_fragment"
             android:name="br.com.opttasks.ui.add.AddStudentsFragment"
             android:label="add_students_fragment" tools:layout="@layout/add_students_fragment">
-        <argument android:name="tasks" app:argType="br.com.opttasks.data.task.Task[]"/>
+        <argument android:name="tasks" app:argType="br.com.opttasks.data.Task[]"/>
     </fragment>
 </navigation>

@@ -6,10 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import br.com.opttasks.R
+import br.com.opttasks.data.Task
 
-import br.com.opttasks.data.task.Task
 import br.com.opttasks.databinding.AddTasksFragmentBinding
 import br.com.opttasks.utils.Injector
 
@@ -31,24 +32,27 @@ class AddTasksFragment : Fragment() {
             tasks = arrayListOf()
 
             taskAddButton.setOnClickListener {
-                if (name.isNullOrEmpty() || level.isNullOrEmpty()) {
-                    taskNameLayout.error = if (name.isNullOrEmpty()) getString(R.string.not_empty) else null
-                    taskValueLayout.error = if (level.isNullOrEmpty()) getString(R.string.not_empty) else null
-                } else {
-                    tasks?.add(Task(name, level!!.toInt()))
+                if (!taskName.isNullOrEmpty() && !level.isNullOrEmpty()) {
+                    tasks?.add(Task(taskName, level!!.toInt()))
                     invalidateAll()
-                    taskNameLayout.error = null
-                    taskValueLayout.error = null
                 }
             }
 
             navigateStudentsButton.setOnClickListener {
-                val arg = arrayOfNulls<Task>(tasks?.size!!)
-                (tasks as ArrayList).toArray(arg)
+                val size = (tasks as ArrayList).size
 
-                findNavController().navigate(AddTasksFragmentDirections.actionNavigateStudents(
-                    arg as Array<Task>
-                ))
+                if (size > 0) {
+                    val arg = arrayOfNulls<Task>(size)
+                    (tasks as ArrayList).toArray(arg)
+
+                    findNavController().navigate(
+                        AddTasksFragmentDirections.actionNavigateStudents(
+                            arg as Array<Task>
+                        )
+                    )
+                } else Toast
+                    .makeText(context, getString(R.string.at_least_one), Toast.LENGTH_LONG)
+                    .show()
             }
 
             root

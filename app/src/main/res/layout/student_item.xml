@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="br.com.opttasks.data.Task"/>
-        <variable name="data" type="Task"/>
+        <import type="java.util.List"/>
+        <import type="kotlin.Pair"/>
+        <variable name="data" type="Pair&lt;String, List&lt;Integer&gt;&gt;"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/task_view_layout"
+            android:id="@+id/student_view_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingBottom="16dp">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/task_remove_button"
+                android:id="@+id/student_remove_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -30,39 +31,21 @@
                 app:elevation="4dp"/>
 
         <TextView
-                android:id="@+id/task_name_view"
+                android:id="@+id/student_tasks_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="4dp"
                 app:layout_constraintWidth_default="percent"
-                app:layout_constraintWidth_percent=".4"
-                app:layout_constraintStart_toEndOf="@id/task_remove_button"
+                app:layout_constraintWidth_percent=".7"
+                app:layout_constraintStart_toEndOf="@id/student_remove_button"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="@{data.name}"
+                android:text="@{data.first + ` ` + data.second.toString()}"
                 android:textSize="18sp"
                 android:textColorHint="@color/charcoal_grey"
                 android:fontFamily="sans-serif"
                 android:textStyle="normal"
                 tools:ignore="Autofill"/>
-
-        <TextView
-                android:id="@+id/task_level_view"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                app:layout_constraintWidth_default="percent"
-                app:layout_constraintWidth_percent=".3"
-                app:layout_constraintStart_toEndOf="@id/task_name_view"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="@{`` + data.level}"
-                android:textSize="18sp"
-                android:textColorHint="@color/charcoal_grey"
-                android:fontFamily="sans-serif"
-                android:textStyle="normal"
-                tools:ignore="Autofill"/>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
