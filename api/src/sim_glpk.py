@@ -6,6 +6,7 @@ Authors: Gabriel Luciano, Geovane Fonseca and Luigi Domenico  2019
 # Import PuLP modeler functions
 from functools import reduce
 from pulp import *
+from unidecode import unidecode
 
 def sim(documents):
     name = documents.get('name')
@@ -22,7 +23,7 @@ def sim(documents):
         cstudents[s['name']] = []
 
         for sk in s['skills']:
-            v = '{}@{}'.format(s['name'], sk['task'])
+            v = '{}@{}'.format(unidecode(s['name']), unidecode(sk['task']))
             dvars.append(v)
             factors.append(sk['competency'])
             cstudents[s['name']].append(v)
@@ -37,7 +38,7 @@ def sim(documents):
     # The constraints for students
     for s in students:
         prob += lpSum([dvars_dict[v] for v in cstudents[s['name']]]) >= 1, \
-            'Lower bound for student {}'.format(s['name'])
+            'Lower bound for student {}'.format(unidecode(s['name']))
 
     # The constraints for tasks
     for t in tasks:
@@ -45,20 +46,20 @@ def sim(documents):
         factors = []
 
         for s in students:
-            ctask.append('{}@{}'.format(s['name'], t['name']))
+            ctask.append('{}@{}'.format(unidecode(s['name']), unidecode(t['name'])))
             factors.append(
                 next(item for item in s['skills'] if item['task'] == t['name'])
                     ['competency']
             )
 
         prob += lpSum([f * dvars_dict[v] for v, f in zip(ctask, factors)]) >= 1, \
-            'Lower bound for task {}'.format(t['name'])
+            'Lower bound for task {}'.format(unidecode(t['name']))
         prob += lpSum([f * dvars_dict[v] for v, f in zip(ctask, factors)]) <= t['level'], \
-            'Upper bound for task {}'.format(t['name'])
+            'Upper bound for task {}'.format(unidecode(t['name']))
 
     
     # The problem data is written to an .lp file
-    # prob.writeLP('OptmizingTasks.lp')
+    prob.writeLP('OptmizingTasks.lp')
 
     # The problem is solved using PuLP's GLPK
     prob.solve(pulp.GLPK())
