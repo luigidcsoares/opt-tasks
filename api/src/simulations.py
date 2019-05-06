@@ -90,7 +90,8 @@ class Simulations(Resource):
         ns.payload['status'] = retrieve.pop('status')
 
         tmp = set(list(map(
-            lambda x: cleanRetrieve(x)[0], 
+            lambda x: next(item['name'] for item in ns.payload['students']
+                           if unidecode(item['name']) == cleanRetrieve(x)[0]),
             retrieve.keys()
         )))
 
@@ -102,7 +103,9 @@ class Simulations(Resource):
                 tr = cleanRetrieve(key)
                 i = next(i for i, item in enumerate(ns.payload['allocations'])
                             if unidecode(item['student']) == tr[0])
-                ns.payload['allocations'][i]['tasks'].append(tr[1])
+                task = next(item['name'] for item in ns.payload['tasks']
+                            if unidecode(item['name']) == tr[1])
+                ns.payload['allocations'][i]['tasks'].append(task)
 
         db.simulations.insert_one(ns.payload)
         return ns.payload
