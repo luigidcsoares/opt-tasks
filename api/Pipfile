@@ -12,6 +12,7 @@ pymongo = "*"
 dnspython = "*"
 pulp = "*"
 gunicorn = "*"
+unidecode = "*"
 
 [requires]
 python_version = "3.7"
