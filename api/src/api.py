@@ -1,7 +1,7 @@
 from flask_restplus import Api
 
 # Import api namespaces.
-from . import simulations, users
+from . import auth, simulations, users
 
 authorizations = {
     'apikey': {
@@ -17,5 +17,6 @@ api = Api(
     authorizations=authorizations,
     description='Optimal allocation of students into group tasks'
 )
+api.add_namespace(auth.ns)
 api.add_namespace(simulations.ns)
 api.add_namespace(users.ns)
