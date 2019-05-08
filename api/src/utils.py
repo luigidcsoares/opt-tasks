@@ -14,10 +14,13 @@ def token_required(f):
             abort(403, 'Token is missing!')
 
         try:
-            data = jwt.decode(token, app.config['SECRET_KEY'])
+            validate_token(token)
         except:
             abort(403, 'Token is invalid!')
 
         return f(*args, **kwargs)
 
     return decorated
+
+def validate_token(token):
+    return jwt.decode(token, app.config['SECRET_KEY'])
