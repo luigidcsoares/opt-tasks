@@ -16,9 +16,7 @@ import br.com.opttasks.data.Skill
 import br.com.opttasks.data.Student
 import br.com.opttasks.databinding.AddStudentsFragmentBinding
 import br.com.opttasks.utils.Injector
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class AddStudentsFragment : Fragment() {
 
@@ -77,8 +75,10 @@ class AddStudentsFragment : Fragment() {
                     }
 
                     val simulation = Simulation(simulationName!!, args.tasks.toList(), studentList)
-                    CoroutineScope(Dispatchers.Main).launch { viewModel.save(simulation) }
+
+                    runBlocking { viewModel.save(simulation) }
                     findNavController().navigate(AddStudentsFragmentDirections.actionSave())
+
                 } else Toast
                     .makeText(context, getString(R.string.at_least_one), Toast.LENGTH_LONG)
                     .show()

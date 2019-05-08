@@ -25,7 +25,7 @@ object BindingAdapters {
         val inflater =
             viewGroup.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-        for (entry in entries!!) {
+        entries?.forEach { entry ->
             val binding = DataBindingUtil.inflate(inflater, layoutId!!, viewGroup, true) as ViewDataBinding
             binding.setVariable(BR.data, entry)
 

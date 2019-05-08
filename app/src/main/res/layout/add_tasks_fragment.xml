@@ -95,7 +95,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="numberSigned"
-                            android:hint="@string/task_value"
+                            android:hint="@string/task_level"
                             android:text="@={level}"
                             android:textColorHint="@color/charcoal_grey"
                             android:fontFamily="sans-serif"

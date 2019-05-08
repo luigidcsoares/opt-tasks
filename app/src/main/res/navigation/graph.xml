@@ -10,12 +10,13 @@
         android:name="br.com.opttasks.ui.login.LoginFragment"
         android:label="login_fragment" >
         <action
-            android:id="@+id/action_login"
-            app:destination="@id/home_fragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+                android:id="@+id/action_login"
+                app:destination="@id/home_fragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim"
+                app:popUpTo="@+id/login_fragment" app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/home_fragment"
@@ -23,12 +24,14 @@
         android:label="home_fragment"
         tools:layout="@layout/home_fragment" >
         <action
-            android:id="@+id/action_add"
-            app:destination="@id/add_tasks_fragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+                android:id="@+id/action_add"
+                app:destination="@id/add_tasks_fragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim"
+                app:popUpToInclusive="false"/>
+        <action android:id="@+id/action_detail" app:destination="@id/detail_fragment"/>
     </fragment>
     <fragment
         android:id="@+id/add_tasks_fragment"
@@ -43,6 +46,12 @@
             android:name="br.com.opttasks.ui.add.AddStudentsFragment"
             android:label="add_students_fragment" tools:layout="@layout/add_students_fragment">
         <argument android:name="tasks" app:argType="br.com.opttasks.data.Task[]"/>
-        <action android:id="@+id/action_save" app:destination="@id/home_fragment"/>
+        <action android:id="@+id/action_save" app:destination="@id/home_fragment"
+                app:popUpTo="@+id/add_students_fragment"
+                app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment android:id="@+id/detail_fragment" android:name="br.com.opttasks.ui.detail.DetailFragment"
+              android:label="detail_fragment" tools:layout="@layout/detail_fragment">
+        <argument android:name="id" app:argType="string"/>
     </fragment>
 </navigation>

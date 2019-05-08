@@ -5,10 +5,13 @@
     <string name="login_email">Email</string>
     <string name="login_fail">Usuário ou senha inválidos!</string>
     <string name="task_name">Tarefa</string>
-    <string name="task_value">Dificuldade</string>
+    <string name="task_level">Dificuldade</string>
     <string name="field_mandatory">* Campo obrigatório</string>
-    <string name="student_value">Competência</string>
+    <string name="student_competency">Competência</string>
     <string name="student_name">Estudante</string>
     <string name="at_least_one">Insira pelo menos um item!</string>
     <string name="simulation_name">Nome da simulação</string>
+    <string name="card_allocs_title">Alocações</string>
+    <string name="card_tasks_title">Tarefas</string>
+    <string name="card_students_title">Estudantes</string>
 </resources>
