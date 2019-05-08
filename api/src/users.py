@@ -40,7 +40,7 @@ userSecret = ns.model('UserSecret', {
 userSignUp = ns.inherit('UserSignUp', user, userSecret, {
 })
 
-userSignIn = ns.model('UserSignIn', {
+userSignIn = ns.inherit('UserSignIn', user, {
     'token': fields.String(description='Generated token')
 })
 
@@ -83,8 +83,9 @@ class UserSignIn(Resource):
                 'user': ns.payload['username'],
                 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=30)
             }, app.config['SECRET_KEY'])
-            
-            return { 'token': token.decode('UTF-8') }
+           
+            user['token'] = token.decode('UTF-8')
+            return user
         else:
             abort(401, 'Password is invalid!', {
                 'WWW-Authenticate': 'Basic realm="Login required"'
