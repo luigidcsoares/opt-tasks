@@ -74,7 +74,7 @@ simulation = ns.model('Simulation', {
 ########### Routes ###########
 ##############################
 
-@ns.route('/')
+@ns.route('')
 class Simulations(Resource):
     @ns.doc('Get the list of simulations', security='apikey')
     @ns.marshal_list_with(simulation)
