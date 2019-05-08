@@ -1,17 +1,18 @@
 import json
-from flask_restplus import Namespace, Resource, fields
+from flask import request
+from flask_restplus import Namespace, Resource, fields, reqparse
 from bson.objectid import ObjectId
 from pymongo import ReturnDocument
 from unidecode import unidecode
 
-# IMport pulp glpk solver for our case
+# Import pulp glpk solver for our case
 from .sim_glpk import sim
 
 # Import MongoDB instance.
 from .db import db
 
 # Import util functions
-from .utils import token_required
+from .utils import token_required, uid_required
 
 ##############################
 ######### Namespace ##########
@@ -74,20 +75,37 @@ simulation = ns.model('Simulation', {
 ########### Routes ###########
 ##############################
 
+parser = reqparse.RequestParser()
+parser.add_argument('UID', location='headers', required=True)
+
 @ns.route('')
 class Simulations(Resource):
-    @ns.doc('Get the list of simulations', security='apikey')
+    @ns.doc(
+        'Get the list of simulations', security='apikey',
+        parser=parser
+    )
     @ns.marshal_list_with(simulation)
+    @uid_required
     @token_required
     def get(self):
         """ List of Simulations """
-        return list(db.simulations.find({}))
+        return list(db.simulations.find({
+            'uid': request.headers['UID']
+        }))
 
-    @ns.doc('Post a new simulation', security='apikey')
+    @ns.doc(
+        'Post a new simulation', security='apikey',
+        body=simulation, parser=parser
+    )
     @ns.expect(simulation, validate=True)
     @ns.marshal_with(simulation)
     @token_required
+    @uid_required
     def post(self):
+        # Get User ID using header
+        ns.payload['uid'] = request.headers['UID']
+
+        # Call PulP GLPK solver
         retrieve = sim(ns.payload)
 
         ns.payload['allocations'] = []
@@ -117,11 +135,18 @@ class Simulations(Resource):
 
 @ns.route('/<string:id>')
 class Simulation(Resource):
-    @ns.doc('Get a simulation', security='apikey')
+    @ns.doc(
+        'Get a simulation', security='apikey',
+        parser=parser
+    )
     @ns.marshal_with(simulation)
+    @uid_required
     @token_required
     def get(self, id):
-        return db.simulations.find_one({ '_id': ObjectId(id) })
+        return db.simulations.find_one({
+            'uid': request.headers['UID'], 
+            '_id': ObjectId(id)
+        })
 
 def cleanRetrieve(s):
     return s[4:].replace("_", " ").split("@")
