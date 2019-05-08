@@ -1,21 +1,24 @@
+import json
 from flask_restplus import Namespace, Resource, fields
 from bson.objectid import ObjectId
 from pymongo import ReturnDocument
 from unidecode import unidecode
 
-import json
-
+# IMport pulp glpk solver for our case
 from .sim_glpk import sim
 
 # Import MongoDB instance.
-from .db import db 
+from .db import db
+
+# Import util functions
+from .utils import token_required
 
 ##############################
 ######### Namespace ##########
 ##############################
 
 ns = Namespace(
-    'simulations', 
+    'Simulations', 
     description='Endpoints for linear problems simulations',
     path='/api/simulations'
 )
@@ -24,12 +27,12 @@ ns = Namespace(
 ######## Flask Models ########
 ##############################
 
-simulation = ns.model('simulation', {
+simulation = ns.model('Simulation', {
     '_id': fields.String(description='Simulation ID'),
     'name': fields.String(required=True, description='Simulation Name'),
     'tasks': fields.List(
         fields.Nested(ns.model(
-            'task', {
+            'Task', {
                 'name': fields.String(
                     required=True,
                     unique=True,
@@ -43,9 +46,9 @@ simulation = ns.model('simulation', {
         ))
     ),
     'students': fields.List(
-        fields.Nested(ns.model('student', {
+        fields.Nested(ns.model('Student', {
             'name': fields.String(required=True, unique=True, descripton='Student Name'),
-            'skills': fields.List(fields.Nested(ns.model('skill', {
+            'skills': fields.List(fields.Nested(ns.model('Skill', {
                 'task': fields.String(
                     required=True, 
                     unique=True, 
@@ -59,7 +62,7 @@ simulation = ns.model('simulation', {
         }))
     ),
     'allocations': fields.List(
-        fields.Nested(ns.model('allocation', {
+        fields.Nested(ns.model('Allocation', {
             'student': fields.String(),
             'tasks': fields.List(fields.String)
     }))),
@@ -73,15 +76,17 @@ simulation = ns.model('simulation', {
 
 @ns.route('/')
 class Simulations(Resource):
-    @ns.doc('Get the list of simulations')
+    @ns.doc('Get the list of simulations', security='apikey')
     @ns.marshal_list_with(simulation)
+    @token_required
     def get(self):
         """ List of Simulations """
         return list(db.simulations.find({}))
 
-    @ns.doc('Post a new simulation')
+    @ns.doc('Post a new simulation', security='apikey')
     @ns.expect(simulation, validate=True)
     @ns.marshal_with(simulation)
+    @token_required
     def post(self):
         retrieve = sim(ns.payload)
 
@@ -112,10 +117,11 @@ class Simulations(Resource):
 
 @ns.route('/<string:id>')
 class Simulation(Resource):
-    @ns.doc('Get a simulation')
+    @ns.doc('Get a simulation', security='apikey')
     @ns.marshal_with(simulation)
+    @token_required
     def get(self, id):
-        return db.simulations.find_one({'_id': ObjectId(id)})
+        return db.simulations.find_one({ '_id': ObjectId(id) })
 
 def cleanRetrieve(s):
     return s[4:].replace("_", " ").split("@")
